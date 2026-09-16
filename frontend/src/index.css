@@ -1,0 +1,52 @@
+/* Self-hosted fonts (no external network requests — consistent with the
+   dashboard's "no cloud, nothing phones home" design). */
+@import "@fontsource/archivo/400.css";
+@import "@fontsource/archivo/500.css";
+@import "@fontsource/archivo/600.css";
+@import "@fontsource/archivo/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: #15130f;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(227, 149, 60, 0.05), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(63, 205, 176, 0.04), transparent 35%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background-color: rgba(227, 149, 60, 0.35);
+}
+
+/* Tabular figures everywhere numbers appear in the mono readout face, so
+   digits don't jiggle horizontally as values tick over. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Slim, unobtrusive scrollbar that matches the panel aesthetic instead of
+   the OS default. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #362f24;
+  border-radius: 8px;
+  border: 2px solid #15130f;
+}

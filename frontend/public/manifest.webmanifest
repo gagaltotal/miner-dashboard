@@ -1,0 +1,12 @@
+{
+  "name": "Dasbor Penambang Bitcoin",
+  "short_name": "Dasbor Penambang",
+  "description": "Pemantauan lokal untuk perangkat penambang Bitcoin rumahan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#15130F",
+  "theme_color": "#15130F",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

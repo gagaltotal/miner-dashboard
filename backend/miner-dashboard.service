@@ -1,0 +1,35 @@
+# Contoh unit systemd agar dasbor otomatis berjalan saat Raspberry Pi menyala.
+#
+# CARA PAKAI:
+#   1. Sesuaikan "User=" dan path "WorkingDirectory=" / "ExecStart=" di bawah
+#      agar cocok dengan lokasi Anda meng-clone/menyalin folder proyek ini
+#      (defaultnya diasumsikan ada di /home/pi/miner-dashboard/backend).
+#   2. Salin berkas ini:
+#        sudo cp miner-dashboard.service /etc/systemd/system/
+#   3. Aktifkan dan jalankan:
+#        sudo systemctl daemon-reload
+#        sudo systemctl enable --now miner-dashboard
+#   4. Cek statusnya:
+#        sudo systemctl status miner-dashboard
+#        journalctl -u miner-dashboard -f
+
+[Unit]
+Description=Dasbor Penambang Bitcoin Rumahan (lokal)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/miner-dashboard/backend
+EnvironmentFile=-/home/pi/miner-dashboard/backend/.env
+ExecStart=/home/pi/miner-dashboard/backend/.venv/bin/python3 -m app.main
+Restart=on-failure
+RestartSec=5
+# Sedikit pengerasan tambahan di level systemd (defense in depth di luar
+# aplikasi itu sendiri) — aman dihapus jika menyebabkan masalah di setup Anda.
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
