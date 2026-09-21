@@ -1,21 +1,46 @@
 services:
   miner-dashboard:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+
     container_name: miner-dashboard
     restart: unless-stopped
+
     # network_mode: host direkomendasikan di Linux/Raspberry Pi agar fitur
     # "pindai jaringan" dapat melihat subnet LAN Anda secara langsung.
     # Di Docker Desktop (Mac/Windows) network_mode host tidak didukung —
     # hapus baris ini dan gunakan port mapping di bawah, lalu tambahkan
     # perangkat secara manual (fitur pindai otomatis tidak akan bekerja
     # penuh dalam mode ini).
-    network_mode: host
-    # ports:
-    #   - "8420:8420"
+    # network_mode: host
+
+    ports:
+      - "8420:8420"
+
+    env_file:
+      - .env
+
+    environment:
+      MINER_DASH_HOST: "0.0.0.0"
+      MINER_DASH_PORT: "8420"
+      MINER_DASH_DATA_DIR: "/data"
+      MINER_DASH_FRONTEND_DIST: "/app/frontend/dist"
+      MINER_DASH_POLL_INTERVAL: "15"
+
     volumes:
       - miner-dashboard-data:/data
-    environment:
-      - MINER_DASH_PORT=8420
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8420/', timeout=5)\""
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
 volumes:
   miner-dashboard-data:
