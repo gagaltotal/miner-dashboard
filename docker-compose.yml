@@ -19,7 +19,7 @@ services:
       - "8420:8420"
 
     env_file:
-      - .env
+      - ./backend/.env
 
     environment:
       MINER_DASH_HOST: "0.0.0.0"
